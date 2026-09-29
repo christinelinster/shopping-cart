@@ -1,4 +1,4 @@
-import type {Cart} from '../types/cart'
+import type { Cart } from "../types";
 
 interface CartItemProps {
   item: Pick<Cart, "title" | "quantity" | "price">

@@ -1,12 +1,16 @@
-import { mockProducts } from "../mockData/data";
 import ProductItem from "./ProductItem";
+import type { Product } from "../types";
 
-export const ProductListing = () => {
+interface ProductListingProps {
+  products: Product[],
+}
+
+export const ProductListing = ({products}: ProductListingProps) => {
   return (
     <div className="product-listing">
       <h2>Products</h2>
       <ul className="product-list">
-        {mockProducts.map((product) => (
+        {products.map((product) => (
           <ProductItem key={product._id} product={product} />
         ))}
       </ul>

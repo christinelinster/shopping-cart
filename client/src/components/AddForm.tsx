@@ -1,12 +1,31 @@
 import { useState } from "react";
+import type { NewProduct } from "../types";
 
-const AddForm = () => {
-    const [isAddFormVisible, setIsAddFormVisible] = useState(false);
+interface AddFormProps {
+  onAddProduct: (product: NewProduct, callback?: () => void) => void;
+}
 
-    const toggleAddForm = () =>
-      setIsAddFormVisible(!isAddFormVisible);
-    const closeAddForm = () => setIsAddFormVisible(false);
+const AddForm = ({ onAddProduct }: AddFormProps) => {
+  const [isAddFormVisible, setIsAddFormVisible] = useState(false);
+  const [title, setTitle] = useState<string | ''>("");
+  const [quantity, setQuantity] = useState<number | null>();
+  const [price, setPrice] = useState<number | null>();
 
+  const toggleAddForm = () => setIsAddFormVisible(!isAddFormVisible);
+  const closeAddForm = () => setIsAddFormVisible(false);
+
+  const handleReset = () => {
+    setTitle("");
+    setQuantity(null);
+    setPrice(null);
+  };
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (title && quantity && price) {
+      onAddProduct({ title, quantity, price }, handleReset);
+    }
+  };
 
   return (
     <>
@@ -16,10 +35,18 @@ const AddForm = () => {
         </button>
       </p>
       <div className={`add-form ${isAddFormVisible ? "visible" : ""}`}>
-        <form>
+        <form action="" onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="product-name">Product Name:</label>
-            <input type="text" id="product-name" name="product-name" required />
+            <input
+              type="text"
+              id="product-name"
+              name="product-name"
+              placeholder="Product"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
           </div>
           <div className="input-group">
             <label htmlFor="product-price">Price:</label>
@@ -29,6 +56,9 @@ const AddForm = () => {
               name="product-price"
               min="0"
               step="0.01"
+              placeholder="0.00"
+              value={price ?? ''}
+              onChange={(e) => setPrice(Number(e.target.value))}
               required
             />
           </div>
@@ -39,6 +69,9 @@ const AddForm = () => {
               id="product-quantity"
               name="product-quantity"
               min="0"
+              placeholder="0"
+              value={quantity?? ''}
+              onChange={(e) => setQuantity(Number(e.target.value))}
               required
             />
           </div>
