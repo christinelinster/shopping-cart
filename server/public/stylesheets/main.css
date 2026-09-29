@@ -169,7 +169,9 @@ input[type="number"] {
 }
 
 .add-form h3,
-.add-form form {
+.add-form form,
+.edit-form h3,
+.edit-form form {
   display: none;
 }
 
@@ -178,7 +180,10 @@ input[type="number"] {
 }
 
 .add-form.visible h3,
-.add-form.visible form {
+.add-form.visible form,
+.edit-form.visible h3,
+.edit-form.visible form
+{
   display: block;
 }
 
