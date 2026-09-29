@@ -1,18 +1,21 @@
-interface AddFormProps {
-  isVisible: boolean;
-  onToggle: () => void;
-  onClose: () => void;
-}
+import { useState } from "react";
 
-const AddForm = ({ isVisible, onToggle, onClose }: AddFormProps) => {
+const AddForm = () => {
+    const [isAddFormVisible, setIsAddFormVisible] = useState(false);
+
+    const toggleAddForm = () =>
+      setIsAddFormVisible(!isAddFormVisible);
+    const closeAddForm = () => setIsAddFormVisible(false);
+
+
   return (
     <>
       <p>
-        <button onClick={onToggle} className="add-product-button">
+        <button onClick={toggleAddForm} className="add-product-button">
           Add A Product
         </button>
       </p>
-      <div className={`add-form ${isVisible ? "visible" : ""}`}>
+      <div className={`add-form ${isAddFormVisible ? "visible" : ""}`}>
         <form>
           <div className="input-group">
             <label htmlFor="product-name">Product Name:</label>
@@ -41,7 +44,7 @@ const AddForm = ({ isVisible, onToggle, onClose }: AddFormProps) => {
           </div>
           <div className="actions form-actions">
             <button type="submit">Add</button>
-            <button type="button" onClick={onClose}>
+            <button type="button" onClick={closeAddForm}>
               Cancel
             </button>
           </div>
