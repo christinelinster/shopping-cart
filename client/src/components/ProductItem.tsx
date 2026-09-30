@@ -4,9 +4,10 @@ import EditForm from "./EditForm";
 
 interface ProductItemProps {
   product: Product;
+  onEditProduct: (product: Product, callback?: () => void) => void
 }
 
-const ProductItem = ({ product }: ProductItemProps) => {
+const ProductItem = ({ product, onEditProduct }: ProductItemProps) => {
   const { title, quantity, price } = product;
   const [isEditFormVisible, setIsEditFormVisible] = useState(false);
 
@@ -34,9 +35,8 @@ const ProductItem = ({ product }: ProductItemProps) => {
       <EditForm
         isVisible={isEditFormVisible}
         onClose={() => setIsEditFormVisible(false)}
-        title={title}
-        price={price}
-        quantity={quantity}
+        product={product}
+        onEditProduct={onEditProduct}
       />
     </li>
   );

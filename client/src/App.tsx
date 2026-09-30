@@ -5,7 +5,7 @@ import { ProductListing } from "./components/ProductListing";
 import AddForm from "./components/AddForm";
 
 import type { Product, NewProduct } from "./types";
-import { getProducts, createProduct } from "./services/products";
+import { getProducts, createProduct, updateProduct } from "./services/products";
 import { ZodError } from "zod";
 
 
@@ -29,6 +29,21 @@ function App() {
   }, [])
 
 
+
+  const handleEditProduct = async(product: Product, callback?: () => void) => {
+    const id = product._id
+    try {
+      const data = await updateProduct(product)
+      setProducts((prevProducts) => prevProducts.map(product => product._id !== id ? product : data))
+      if (callback) {
+        callback()
+      }
+    } catch (e: unknown) {
+      console.error(e)
+    }
+  }
+
+
   const handleAddProduct = async (newProduct: NewProduct, callback?: () => void) => {
     try {
       const data = await createProduct(newProduct)
@@ -43,9 +58,9 @@ function App() {
 
   return (
     <div id="app">
-      <Header />
+      <Header/>
       <main>
-        <ProductListing products={products} />
+        <ProductListing products={products} onEditProduct={handleEditProduct} />
         <AddForm onAddProduct={handleAddProduct}/>
       </main>
     </div>
